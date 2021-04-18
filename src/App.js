@@ -9,31 +9,8 @@ const searchUrl = `https://api.unsplash.com/search/photos/`
 function App() {
   const [loading, setLoading] = useState(false)
   const [photos, setPhotos] = useState([])
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
   const [query, setQuery] = useState('')
-
-  // dark mode
-  const getStorageTheme = () => {
-    let theme = 'light-theme'
-    if (localStorage.getItem('theme')) {
-      theme = localStorage.getItem('theme')
-    }
-    return theme
-  }
-  const [theme, setTheme] = useState(getStorageTheme())
-  useEffect(() => {
-    document.documentElement.className = theme
-    localStorage.setItem('theme', theme)
-  }, [theme])
-  const toggleTheme = () => {
-    if (theme === 'light-theme') {
-      setTheme('dark-theme')
-    } else {
-      setTheme('light-theme')
-    }
-  }
-  //end dark mode
-
   const fetchImages = async () => {
     setLoading(true)
     let url
@@ -64,8 +41,7 @@ function App() {
   }
   useEffect(() => {
     fetchImages()
-    setPage(1)
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
   useEffect(() => {
@@ -86,6 +62,29 @@ function App() {
     e.preventDefault()
     setPage(1)
   }
+
+  // dark mode
+  const getStorageTheme = () => {
+    let theme = 'light-theme'
+    if (localStorage.getItem('theme')) {
+      theme = localStorage.getItem('theme')
+    }
+    return theme
+  }
+  const [theme, setTheme] = useState(getStorageTheme())
+  useEffect(() => {
+    document.documentElement.className = theme
+    localStorage.setItem('theme', theme)
+  }, [theme])
+  const toggleTheme = () => {
+    if (theme === 'light-theme') {
+      setTheme('dark-theme')
+    } else {
+      setTheme('light-theme')
+    }
+  }
+  //end dark mode
+
   return (
     <main>
       <section className='search'>
